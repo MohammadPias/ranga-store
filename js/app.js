@@ -11,21 +11,36 @@ const showProducts = (products) => {
   const allProducts = products.map((pd) => pd);
   for (const product of allProducts) {
     const image = product.image;
+    // showDetails(product)
     const div = document.createElement("div");
     div.classList.add("product");
     div.innerHTML = `<div class="single-product">
       <div>
     <img class="product-image" src=${image}></img>
       </div>
-      <h3>${product.title}</h3>
+      <h5>${product.title}</h5>
       <p>Category: ${product.category}</p>
-      <h2>Price: $ ${product.price}</h2>
+      <h3>Price: $ ${product.price}</h3>
+      <h6>Rating: ${product.rating.rate} <span>(${product.rating.count})</span></h6>
       <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
-      <button id="details-btn" class="btn btn-danger">Details</button></div>
+      <button id="details-btn" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Details</button></div>
       `;
     document.getElementById("all-products").appendChild(div);
   }
 };
+// Display Details function----------
+/* const showDetails = (product) => {
+  const titleId = document.getElementById('title-id');
+  const bodyId = document.getElementById('body-id');
+  titleId.innerHTML = `
+    <h5 class="modal-title">${product.title}</h5>
+  `;
+  bodyId.innerHTML = `
+  <p>${product.description}</p>
+  <h2>Price: ${product.price}</h2>
+  `;
+} */
+
 let count = 0;
 const addToCart = (id, price) => {
   count = count + 1;
@@ -48,7 +63,6 @@ const updatePrice = (id, value) => {
   const convertPrice = parseFloat(value);
   const total = convertedOldPrice + convertPrice;
   document.getElementById(id).innerText = total.toFixed(2);
-  console.log(total);
 };
 
 // set innerText function
@@ -78,6 +92,5 @@ const updateTotal = () => {
   const grandTotal =
     getInputValue("price") + getInputValue("delivery-charge") +
     getInputValue("total-tax");
-    console.log(grandTotal)
   document.getElementById("total").innerText = parseFloat(grandTotal).toFixed(2);
 };
